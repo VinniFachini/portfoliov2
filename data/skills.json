@@ -1,0 +1,62 @@
+[
+    {
+        "id": "html",
+        "name": "HTML5",
+        "progress": "100%"
+    },
+    {
+        "id": "css",
+        "name": "CSS3",
+        "progress": "100%"
+    },
+    {
+        "id": "vs",
+        "name": "VSCode",
+        "progress": "93%"
+    },
+    {
+        "id": "js",
+        "name": "JavaScript",
+        "progress": "95%"
+    },
+    {
+        "id": "node",
+        "name": "NodeJS",
+        "progress": "85%"
+    },
+    {
+        "id": "vue",
+        "name": "VueJS",
+        "progress": "90%"
+    },
+    {
+        "id": "ts",
+        "name": "TypeScript",
+        "progress": "75%"
+    },
+    {
+        "id": "git",
+        "name": "Git",
+        "progress": "75%"
+    },
+    {
+        "id": "python",
+        "name": "Python",
+        "progress": "65%"
+    },
+    {
+        "id": "react",
+        "name": "React",
+        "progress": "87%"
+    },
+    {
+        "id": "sass",
+        "name": "SASS",
+        "progress": "87%"
+    },
+    {
+        "id": "django",
+        "name": "Django",
+        "progress": "40%"
+    }
+]

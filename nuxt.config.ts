@@ -4,10 +4,7 @@ export default defineNuxtConfig({
   css: [
     '@/assets/css/reset.css',
   ],
-  modules: [
-    '@pinia/nuxt',
-    'vue3-carousel-nuxt'
-  ],
+  modules: ['@pinia/nuxt', 'vue3-carousel-nuxt', 'nuxt-icons'],
   pinia: {
     storesDirs: ['./stores/**'],
   },

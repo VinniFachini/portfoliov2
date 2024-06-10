@@ -13,6 +13,11 @@
   transition: all .2s linear;
 }
 
+.nuxt-icon svg {
+  width: initial !important;
+  height: initial !important;
+}
+
 .carousel__pagination-button--active::after {
   background-color: #41B883;
 }

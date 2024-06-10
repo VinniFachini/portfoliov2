@@ -41,7 +41,7 @@ header {
       justify-content: flex-end;
       gap: 16px;
       button {
-        font-size: 24px;
+        font-size: clamp(1rem, 0.85rem + 0.75vw, 1.75rem);
         padding: 8px 16px;
         border-radius: 5px;
         border: 2px solid white;

@@ -154,7 +154,7 @@ export default defineComponent({
       </baseButton>
     </div>
     <div class="projects section section-3">
-      <baseVerticalNavigator mode="light" />:
+      <baseVerticalNavigator mode="light" />
       <div class="section-title"><span>Projects</span></div>
       <Carousel :items-to-show="1" :snapAlign="center" :wrapAround="true">
         <slide
@@ -187,7 +187,8 @@ export default defineComponent({
             <div v-text="project.description" class="project-description"></div>
             <ul class="project-stack">
               <li v-for="stack in project.technologies" :key="stack">
-                <img :src="'/_nuxt/assets/stack/' + stack + '.svg'" />
+                <nuxt-icon :name="`stack/${stack}`" />
+                <!-- <img :src="'/_nuxt/assets/stack/' + stack + '.svg'" /> -->
               </li>
             </ul>
           </div>
@@ -378,10 +379,13 @@ export default defineComponent({
             </ul>
           </form>
         </div>
-        <div class="contact-image">
-          <img src="assets/contact-image.svg" />
-          <span class="working-text">Looking Forward to work with you!</span>
-        </div>
+        <picture class="contact-image">
+          <source
+            srcset="assets/contact-mobile.png"
+            media="screen and (max-width: 992px)"
+          />
+          <img src="assets/contact.png" />
+        </picture>
       </div>
     </div>
   </div>
@@ -393,7 +397,7 @@ export default defineComponent({
 
 .carousel__pagination {
   position: absolute;
-  bottom: -100px;
+  bottom: -25%;
   background-color: #ffffff26;
   left: 50%;
   transform: translateX(-50%);
@@ -406,10 +410,10 @@ export default defineComponent({
 }
 
 .contact {
-  background-image: url("assets/contact-mask.svg") !important;
-  background-repeat: no-repeat !important;
-  background-position: top 0 right -600px !important;
   padding: 32px;
+  @media screen and (max-width: 992px) {
+    padding-bottom: 0 !important;
+  }
   background-size: 100% 100vh !important;
   .section-title {
     color: white !important;
@@ -419,6 +423,15 @@ export default defineComponent({
     align-items: center;
     justify-content: space-between;
     height: 95%;
+    @media screen and (max-width: 992px) {
+      flex-direction: column;
+      .contact-form {
+        max-width: 100%;
+        form {
+          width: 100%;
+        }
+      }
+    }
   }
   .contact-form {
     width: 100%;
@@ -460,7 +473,7 @@ export default defineComponent({
         label {
           color: white;
           width: 100%;
-          font-size: 24px;
+          font-size: clamp(1rem, 0.9rem + 0.5vw, 1.5rem);
           margin-bottom: 8px;
         }
         input {
@@ -479,7 +492,7 @@ export default defineComponent({
         }
         textarea {
           resize: none !important;
-          height: 250px;
+          height: 200px;
           width: 100%;
           outline: none;
           background: #ffffff42;
@@ -574,6 +587,41 @@ export default defineComponent({
     align-items: center;
     justify-content: center;
     gap: 30px;
+    img {
+      width: 100%;
+      position: absolute;
+      right: -5%;
+      top: 0;
+      max-width: 45vw;
+      height: 100%;
+      object-fit: cover;
+      @media screen and (max-width: 1550px) {
+        right: -7%;
+        max-width: 50vw;
+      }
+      @media screen and (max-width: 1385px) {
+        right: -15%;
+        max-width: 58vw;
+      }
+      @media screen and (max-width: 1200px) {
+        right: -20%;
+        max-width: 60vw;
+      }
+      @media screen and (max-width: 1130px) {
+        right: -30%;
+        max-width: 70vw;
+      }
+      @media screen and (max-width: 992px) {
+        position: relative;
+        width: 100vw;
+        height: 100%;
+        right: 0;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        max-width: unset;
+      }
+    }
     .working-text {
       font-size: 64px;
       color: #34495e;
@@ -596,7 +644,8 @@ export default defineComponent({
     align-items: center;
     justify-content: center;
     span.different-stack {
-      font-size: 32px;
+      font-size: clamp(1.125rem, 0.85rem + 1.375vw, 2.5rem);
+      text-align: center;
       color: #1b2631;
       font-weight: 500;
     }
@@ -614,6 +663,7 @@ export default defineComponent({
       gap: 16px;
       cursor: pointer;
       transition: all 0.2s linear;
+      font-size: clamp(1rem, 0.85rem + 0.75vw, 1.75rem);
       svg {
         fill: #41b883;
         transition: all 0.2s linear;
@@ -627,6 +677,9 @@ export default defineComponent({
           transform: rotate(90deg);
           fill: white;
         }
+      }
+      @media screen and (max-width: 992px) {
+        padding: 8px 16px;
       }
     }
   }
@@ -644,18 +697,28 @@ export default defineComponent({
     padding-bottom: 32px;
     gap: 16px;
     max-width: 60vw;
+    padding-top: 20px;
     margin: 0 auto;
+    @media screen and (max-width: 992px) {
+      max-width: unset !important;
+      grid-template-columns: repeat(4, 1fr);
+    }
+    @media screen and (max-width: 768px) {
+      grid-template-columns: repeat(3, 1fr);
+    }
+    @media screen and (max-width: 425px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
   }
   &__item {
     width: 100%;
-    padding-top: 20px;
-    height: 100%;
+    height: 100px;
     display: flex;
     align-items: center;
     justify-content: center;
     background-color: #41b883;
     flex-direction: column;
-    transition: all .2s linear;
+    transition: all 0.2s linear;
     border-radius: 5px;
     &:hover {
       background-color: #339267;
@@ -663,7 +726,6 @@ export default defineComponent({
   }
   &__square {
     width: 65px;
-    height: 120px;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -680,7 +742,6 @@ export default defineComponent({
     font-weight: 400;
     line-height: normal;
     display: block;
-    padding: 5px 0 15px;
   }
   &__progress {
     height: 100%;
@@ -712,81 +773,6 @@ export default defineComponent({
       font-weight: 500;
     }
   }
-  @media screen and (max-width: 767px) {
-    &__item {
-      display: flex;
-      align-items: center;
-      &.last {
-        .skills__square {
-          position: relative;
-          &::before {
-            content: "";
-            background: #34495e;
-            width: 1px;
-            height: 20px;
-            display: block;
-            position: absolute;
-            top: 100%;
-            right: -1px;
-          }
-        }
-      }
-    }
-    &__square {
-      width: 80px;
-      height: 96px;
-      padding-right: 20px;
-      border-right: 1px solid #34495e;
-      svg {
-        width: 100%;
-        height: calc(100% - 34px);
-      }
-    }
-    &__name {
-      color: #41b883;
-      text-align: center;
-      font-size: 12px;
-      font-style: normal;
-      font-weight: 400;
-      line-height: normal;
-      display: block;
-      padding: 5px 0 15px;
-    }
-    &__progress {
-      height: 24px;
-      width: calc(100% - 80px);
-      &--bar {
-        background: linear-gradient(90deg, #34495e 18.63%, #41b883 78.88%);
-        height: 24px;
-      }
-    }
-    &__ruler {
-      width: calc(100% - 60px);
-      display: flex;
-      border-top: 1px solid #34495e;
-      justify-content: space-between;
-      margin-left: auto;
-      position: relative;
-      padding-left: 20px;
-      padding-top: 5px;
-      li {
-        color: #fff;
-        font-size: 9px;
-        transform: translateX(50%);
-        position: relative;
-        &::before {
-          content: "";
-          width: 1px;
-          height: 7px;
-          background: #34495e;
-          position: absolute;
-          left: 50%;
-          transform: translateX(-50%);
-          top: -13px;
-        }
-      }
-    }
-  }
 }
 .projects {
   padding-block: 32px;
@@ -803,17 +789,42 @@ export default defineComponent({
     align-items: flex-start;
     justify-content: center;
     min-width: 100% !important;
+    @media screen and (max-width: 992px) {
+      flex-direction: column;
+      gap: 0;
+      .project__image {
+        max-width: unset;
+        margin-top: 32px;
+        width: 100%;
+        height: 300px;
+        .image-text {
+          border-radius: 10px 10px 0 0;
+        }
+        img {
+          width: 100%;
+          border-radius: 10px 10px 0 0;
+        }
+      }
+      .project__info {
+        max-width: unset;
+        margin-top: 0;
+        color: #34495e;
+        padding: 16px;
+        background: white;
+        border-radius: 0 0 10px 10px;
+      }
+    }
   }
   .project__info {
     margin-top: 50px;
     color: white;
-    max-width: 35%;
+    max-width: 50%;
     text-align: left;
     .project-title {
-      font-size: 32px;
+      font-size: clamp(1rem, 0.8rem + 1vw, 2rem);
     }
     .project-description {
-      font-size: 24px;
+      font-size: clamp(0.875rem, 0.75rem + 0.625vw, 1.5rem);
     }
     .project-stack {
       display: flex;
@@ -826,8 +837,7 @@ export default defineComponent({
   .project__image {
     margin-top: 50px;
     position: relative;
-    max-width: 830px;
-    height: 700px;
+    max-width: 960px;
     &__link {
       text-decoration: none;
     }
@@ -875,6 +885,10 @@ export default defineComponent({
         gap: 16px;
         cursor: pointer;
         transition: all 0.2s linear;
+        font-size: clamp(1rem, 0.85rem + 0.75vw, 1.75rem);
+        @media screen and (max-width: 992px) {
+          padding: 8px 16px;
+        }
         &:hover {
           background-color: white;
           color: #1b2631;
@@ -916,6 +930,10 @@ export default defineComponent({
     align-items: center;
     justify-content: center;
     gap: 20px;
+    @media screen and (max-width: 992px) {
+      flex-direction: column;
+      padding-top: 40px;
+    }
   }
   .about {
     width: 100%;
@@ -924,8 +942,12 @@ export default defineComponent({
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    @media screen and (max-width: 992px) {
+      max-width: 80%;
+    }
     img {
-      width: 400px;
+      max-width: 300px;
+      width: 100%;
       border-radius: 50%;
       display: flex;
       align-items: center;
@@ -937,13 +959,13 @@ export default defineComponent({
       align-items: center;
       justify-content: center;
       margin-block: 32px 16px;
-      font-size: 40px;
+      font-size: clamp(1.125rem, 0.85rem + 1.375vw, 2.5rem);
       color: #34495e;
     }
     span.my-history {
       display: flex;
       text-align: left;
-      font-size: 24px;
+      font-size: clamp(1rem, 0.9rem + 0.5vw, 1.5rem);
     }
   }
   .qualities {
@@ -953,8 +975,11 @@ export default defineComponent({
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    @media screen and (max-width: 992px) {
+      max-width: 80%;
+    }
     &__assurance {
-      font-size: 24px;
+      font-size: clamp(1rem, 0.9rem + 0.5vw, 1.5rem);
       margin-top: 40px;
       color: #34495e;
     }
@@ -969,15 +994,18 @@ export default defineComponent({
         align-items: center;
         justify-content: flex-start;
         max-width: 280px;
+        &__image {
+          max-width: 100px;
+        }
         &__title {
-          font-size: 32px;
+          font-size: clamp(1.125rem, 0.95rem + 0.875vw, 2rem);
           color: #34495e;
           margin-block: 20px 10px;
         }
         &__text {
           color: #34495e;
           text-align: center;
-          font-size: 16px;
+          font-size: clamp(0.75rem, 0.7rem + 0.25vw, 1rem);
         }
       }
     }
@@ -989,13 +1017,16 @@ export default defineComponent({
     color: #41b883;
     padding: 16px 32px;
     border-radius: 5px;
-    font-size: 28px;
+    font-size: clamp(1rem, 0.85rem + 0.75vw, 1.75rem);
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 16px;
     cursor: pointer;
     transition: all 0.2s linear;
+    @media screen and (max-width: 992px) {
+      padding: 8px 16px;
+    }
     svg {
       fill: #41b883;
       transition: all 0.2s linear;
@@ -1027,7 +1058,7 @@ export default defineComponent({
 .section {
   background: #1b2631;
   position: relative;
-  min-height: 100vh;
+  min-height: 100dvh;
   .greetings {
     position: absolute;
     top: 50%;
@@ -1040,7 +1071,7 @@ export default defineComponent({
     justify-content: center;
     flex-direction: column;
     .title {
-      font-size: 64px;
+      font-size: clamp(2rem, 1.6rem + 3vw, 4rem);
       color: white;
       font-weight: 400;
       .accent {
@@ -1048,7 +1079,7 @@ export default defineComponent({
       }
     }
     .subtitle {
-      font-size: 64px;
+      font-size: clamp(2rem, 1.6rem + 2vw, 4rem);
       color: white;
       font-weight: 400;
     }
@@ -1059,13 +1090,16 @@ export default defineComponent({
       color: white;
       padding: 16px 32px;
       border-radius: 5px;
-      font-size: 28px;
+      font-size: clamp(1rem, 0.85rem + 0.75vw, 1.75rem);
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 16px;
       cursor: pointer;
       transition: all 0.2s linear;
+      @media screen and (max-width: 992px) {
+        padding: 8px 16px;
+      }
       svg {
         fill: #ffffff;
         transition: all 0.2s linear;

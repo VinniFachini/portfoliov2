@@ -4,7 +4,7 @@
         "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam at placerat nibh, fringilla maximus augue. Maecenas in turpis lacinia, viverra velit a, maximus lorem. Proin egestas bibendum nibh, ut suscipit tortor interdum lacinia. Vestibulum cursus sem et fringilla finibus. Cras euismod consectetur velit, eget sodales metus venenatis in. Donec vulputate ultricies nisl. Fusce lobortis dignissim dolor eget tristique. Quisque sem purus, ultricies eget dictum eget, mattis id dolor. Vivamus posuere, odio eget ultricies aliquam, diam dolor lacinia enim, et tempus arcu nunc a lorem. Suspendisse interdum nibh orci.",
         "technologies": ["html", "git", "vuejs", "typescript", "nodejs", "sass"],
         "image": {
-            "path": "/_nuxt/assets/project01.jpg",
+            "path": "./assets/project01.jpg",
             "imageTitle": "Web FullStack Project",
             "imageSubtitle": "CMS For a blog"
         },
@@ -15,7 +15,7 @@
         "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam at placerat nibh, fringilla maximus augue. Maecenas in turpis lacinia, viverra velit a, maximus lorem. Proin egestas bibendum nibh, ut suscipit tortor interdum lacinia. Vestibulum cursus sem et fringilla finibus. Cras euismod consectetur velit, eget sodales metus venenatis in. Donec vulputate ultricies nisl. Fusce lobortis dignissim dolor eget tristique. Quisque sem purus, ultricies eget dictum eget, mattis id dolor. Vivamus posuere, odio eget ultricies aliquam, diam dolor lacinia enim, et tempus arcu nunc a lorem. Suspendisse interdum nibh orci.",
         "technologies":  ["html", "git", "vuejs", "typescript", "nodejs", "sass"],
         "image": {
-            "path": "/_nuxt/assets/project01.jpg",
+            "path": "./assets/project01.jpg",
             "imageTitle": "Web FullStack Project",
             "imageSubtitle": "CMS For a blog"
         },

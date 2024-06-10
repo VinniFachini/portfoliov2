@@ -4,6 +4,15 @@ import jsonSktacks from "@/data/skills.json";
 import jsonProjects from "@/data/projects.json";
 
 export default defineComponent({
+  head() {
+    return {
+      title: 'Portfolio - Vinicius Fachini',
+      meta: [
+        { name: 'description', content: 'Portfolio Vinícius Fachini' },
+        { name: 'keywords', content: 'desenvolvedor, dev, front' },
+      ],
+    };
+  },
   data() {
     return {
       skills: [],
@@ -383,8 +392,9 @@ export default defineComponent({
           <source
             srcset="assets/contact-mobile.webp"
             media="screen and (max-width: 992px)"
+            alt="Contato"
           />
-          <img src="assets/contact.webp" />
+          <img src="assets/contact.webp" alt="Contato" />
         </picture>
       </div>
     </div>

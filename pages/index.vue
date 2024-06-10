@@ -381,10 +381,10 @@ export default defineComponent({
         </div>
         <picture class="contact-image">
           <source
-            srcset="assets/contact-mobile.png"
+            srcset="assets/contact-mobile.webp"
             media="screen and (max-width: 992px)"
           />
-          <img src="assets/contact.png" />
+          <img src="assets/contact.webp" />
         </picture>
       </div>
     </div>

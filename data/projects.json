@@ -1,23 +1,36 @@
 [
     {
-        "title": "Project 01",
-        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam at placerat nibh, fringilla maximus augue. Maecenas in turpis lacinia, viverra velit a, maximus lorem. Proin egestas bibendum nibh, ut suscipit tortor interdum lacinia. Vestibulum cursus sem et fringilla finibus. Cras euismod consectetur velit, eget sodales metus venenatis in. Donec vulputate ultricies nisl. Fusce lobortis dignissim dolor eget tristique. Quisque sem purus, ultricies eget dictum eget, mattis id dolor. Vivamus posuere, odio eget ultricies aliquam, diam dolor lacinia enim, et tempus arcu nunc a lorem. Suspendisse interdum nibh orci.",
-        "technologies": ["html", "git", "vuejs", "typescript", "nodejs", "sass"],
+        "title": "Blog CMS",
+        "description": "I made a CMS for a Blog using Nuxt 3 on the frontend and Node JS on the backend. The Project was focused on creating a tool to manage the content of a simple blog, it has categories for the posts, comments and all the necessary things to run a blog!",
+        "technologies": [
+            "html",
+            "git",
+            "vuejs",
+            "nodejs",
+            "sass"
+        ],
         "image": {
-            "path": "./assets/project01.webp",
+            "path": "./assets/blog-cms.png",
             "imageTitle": "Web FullStack Project",
             "imageSubtitle": "CMS For a blog"
         },
-        "projectLink": "https://google.com"
+        "projectLink": "https://github.com/VinniFachini/blog-api"
     },
     {
-        "title": "Project 01",
-        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam at placerat nibh, fringilla maximus augue. Maecenas in turpis lacinia, viverra velit a, maximus lorem. Proin egestas bibendum nibh, ut suscipit tortor interdum lacinia. Vestibulum cursus sem et fringilla finibus. Cras euismod consectetur velit, eget sodales metus venenatis in. Donec vulputate ultricies nisl. Fusce lobortis dignissim dolor eget tristique. Quisque sem purus, ultricies eget dictum eget, mattis id dolor. Vivamus posuere, odio eget ultricies aliquam, diam dolor lacinia enim, et tempus arcu nunc a lorem. Suspendisse interdum nibh orci.",
-        "technologies":  ["html", "git", "vuejs", "typescript", "nodejs", "sass"],
+        "title": "Project 02",
+        "description": "A Complete marketplace that works as a single transaction per item, it has users, wallet system, products, categories and everything necessary to work as a marketplace. The project was focused on creating a marketplace and was used Nuxt 3 on the front end and Node JS on the backend. Currently I'm refactoring this project and applying the Test Driven Development system.",
+        "technologies": [
+            "html",
+            "git",
+            "vuejs",
+            "typescript",
+            "nodejs",
+            "sass"
+        ],
         "image": {
             "path": "./assets/project01.webp",
             "imageTitle": "Web FullStack Project",
-            "imageSubtitle": "CMS For a blog"
+            "imageSubtitle": "Complete Marketplace"
         },
         "projectLink": "https://google.com"
     }

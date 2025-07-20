@@ -36,32 +36,7 @@ export default defineComponent({
       return this.i18n.getProjects();
     }
   },
-  methods: {
-    async handleSubmit(event) {
-      event.preventDefault();
-      
-      this.isSubmitting = true;
-      this.submitMessage = '';
-      this.submitStatus = '';
-      
-      try {
-        const response = await $fetch('/api/contact', {
-          method: 'POST',
-          body: this.formData
-        });
-        
-        this.submitStatus = 'success';
-        this.submitMessage = this.i18n.t('contact.form.successMessage');
-        this.resetForm();
-        
-      } catch (error) {
-        this.submitStatus = 'error';
-        this.submitMessage = error.data?.statusMessage || this.i18n.t('contact.form.errorMessage');
-      } finally {
-        this.isSubmitting = false;
-      }
-    },
-    
+  methods: {    
     resetForm() {
       this.formData = {
         name: '',
@@ -333,22 +308,22 @@ export default defineComponent({
             </div>
             <ul class="social">
               <li class="social__item">
-                <a href="#">
+                <a href="https://linkedin.com/in/vinicius-fachini">
                   <img src="assets/social/linkedin.svg" alt="LinkedIn" />
                 </a>
               </li>
               <li class="social__item">
-                <a href="#">
+                <a href="/Curriculo.pdf" download>
                   <img src="assets/social/download.svg" alt="Resume" />
                 </a>
               </li>
               <li class="social__item">
-                <a href="#">
+                <a href="mailto:vinicius.fachini01@gmail.com">
                   <img src="assets/social/email.svg" alt="Email" />
                 </a>
               </li>
               <li class="social__item">
-                <a href="#">
+                <a href="https://wa.me/5518996248348?text=Ol%C3%A1%2C%20gostaria%20de%20fazer%20um%20or%C3%A7amento!">
                   <img src="assets/social/whatsapp.svg" alt="Whatsapp" />
                 </a>
               </li>
@@ -998,6 +973,13 @@ export default defineComponent({
     min-width: 100% !important;
     padding: 0 20px;
 
+    .project-links {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
     @media screen and (max-width: 1200px) {
       gap: 30px;
     }
@@ -1012,13 +994,6 @@ export default defineComponent({
         margin-top: 0;
         width: 100%;
         height: 300px;
-
-        .project-links {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          gap: 10px;
-        }
 
         @media screen and (max-width: 480px) {
           height: 200px;

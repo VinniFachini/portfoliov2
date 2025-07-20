@@ -1,19 +1,10 @@
 <script>
 import { defineComponent } from "@vue/composition-api";
+import { useHead } from '#imports';
 import jsonSktacks from "@/data/skills.json";
 import { useI18n } from "~/composables/useI18n";
 
 export default defineComponent({
-  head() {
-    return {
-      title: 'Portfolio - Vinicius Fachini',
-      meta: [
-        { name: 'description', content: 'Portfolio Vinícius Fachini' },
-        { name: 'keywords', content: 'desenvolvedor, dev, front' },
-        { name: 'viewport', content: 'width=device-width, initial-scale=1.0' },
-      ],
-    };
-  },
   data() {
     return {
       skills: [],
@@ -78,6 +69,16 @@ export default defineComponent({
   },
   mounted() {
     this.skills = jsonSktacks;
+  },
+  setup() {
+    useHead({
+      title: 'Portfolio - Vinicius Fachini',
+      meta: [
+        { name: 'description', content: 'Portfolio Vinícius Fachini' },
+        { name: 'keywords', content: 'desenvolvedor, dev, frontend, backend, fullstack' },
+        { name: 'viewport', content: 'width=device-width, initial-scale=1.0' },
+      ],
+    });
   },
 });
 </script>

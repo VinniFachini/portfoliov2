@@ -14,7 +14,12 @@
             "imageTitle": "Web FullStack Project",
             "imageSubtitle": "CMS For a blog"
         },
-        "projectLink": "https://github.com/VinniFachini/blog-api"
+        "projectLink": [
+            {
+                "link": "https://github.com/VinniFachini/blog-api",
+                "title": "View Project"
+            }
+        ]
     },
     {
         "title": "Project 02",
@@ -28,10 +33,19 @@
             "sass"
         ],
         "image": {
-            "path": "./assets/project01.webp",
+            "path": "./assets/marketplace.png",
             "imageTitle": "Web FullStack Project",
             "imageSubtitle": "Complete Marketplace"
         },
-        "projectLink": "https://google.com"
+        "projectLink": [
+            {
+                "link": "https://github.com/ViniciusFachini/marketplace-back",
+                "title": "FrontEnd"
+            },
+            {
+                "link": "https://github.com/ViniciusFachini/marketplace-front",
+                "title": "Backend"
+            }
+        ]
     }
-] 
+]

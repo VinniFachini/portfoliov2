@@ -196,9 +196,13 @@ export default defineComponent({
             <div class="image-text">
               <div v-text="project.image.imageTitle" class="project-title"></div>
               <div v-text="project.image.imageSubtitle" class="project-desc"></div>
-              <a target="_blank" class="project__image__link" :href="project.projectLink">
-                <baseButton>{{ i18n.t('projects.viewProject') }}</baseButton>
-              </a>
+              <div class="project-links">
+                <div v-for="projectInfo in project.projectLink" class="project-link">
+                  <a target="_blank" class="project__image__link" :href="projectInfo.link">
+                    <baseButton>{{ i18n.t('projects.viewProject') }}</baseButton>
+                  </a>
+                </div>
+              </div>
             </div>
           </div>
           <div class="project__info">
@@ -1000,7 +1004,7 @@ export default defineComponent({
 
     @media screen and (max-width: 992px) {
       flex-direction: column;
-      gap: 20px;
+      gap: 0 !important;
       padding: 0 16px;
 
       .project__image {

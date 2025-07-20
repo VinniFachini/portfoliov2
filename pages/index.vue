@@ -1,7 +1,7 @@
 <script>
 import { defineComponent } from "@vue/composition-api";
 import jsonSktacks from "@/data/skills.json";
-import jsonProjects from "@/data/projects.json";
+import { useI18n } from "~/composables/useI18n";
 
 export default defineComponent({
   head() {
@@ -10,6 +10,7 @@ export default defineComponent({
       meta: [
         { name: 'description', content: 'Portfolio Vinícius Fachini' },
         { name: 'keywords', content: 'desenvolvedor, dev, front' },
+        { name: 'viewport', content: 'width=device-width, initial-scale=1.0' },
       ],
     };
   },
@@ -17,46 +18,91 @@ export default defineComponent({
     return {
       skills: [],
       size: 12,
-      projects: [],
+      formData: {
+        name: '',
+        email: '',
+        message: ''
+      },
+      isSubmitting: false,
+      submitMessage: '',
+      submitStatus: ''
     };
   },
+  computed: {
+    i18n() {
+      return useI18n();
+    },
+    projects() {
+      return this.i18n.getProjects();
+    }
+  },
   methods: {
+    async handleSubmit(event) {
+      event.preventDefault();
+      
+      this.isSubmitting = true;
+      this.submitMessage = '';
+      this.submitStatus = '';
+      
+      try {
+        const response = await $fetch('/api/contact', {
+          method: 'POST',
+          body: this.formData
+        });
+        
+        this.submitStatus = 'success';
+        this.submitMessage = this.i18n.t('contact.form.successMessage');
+        this.resetForm();
+        
+      } catch (error) {
+        this.submitStatus = 'error';
+        this.submitMessage = error.data?.statusMessage || this.i18n.t('contact.form.errorMessage');
+      } finally {
+        this.isSubmitting = false;
+      }
+    },
+    
+    resetForm() {
+      this.formData = {
+        name: '',
+        email: '',
+        message: ''
+      };
+      this.submitMessage = '';
+      this.submitStatus = '';
+    },
+    
     goToSection(sectionNumber) {
       const scrollState = useScrollState();
       console.log(sectionNumber);
       scrollState.setState(sectionNumber);
-      if (sectionNumber == 1) {
-        if (window.innerWidth <= 992) {
-          window.scrollTo(0, (window.innerHeight / 2) * 2);
-        } else {
-          window.scrollTo(0, (window.innerHeight / 2) * 0);
-        }
-      } else if (sectionNumber == 2) {
-        if (window.innerWidth <= 992) {
-          window.scrollTo(0, (window.innerHeight / 2) * 2);
-        } else {
-          window.scrollTo(0, (window.innerHeight / 2) * 2);
-        }
-      } else if (sectionNumber == 3) {
-        if (window.innerWidth <= 992) {
-          window.scrollTo(0, (window.innerHeight / 2) * 5.5);
-        } else {
-          window.scrollTo(0, (window.innerHeight / 2) * 4);
-        }
-      } else if (sectionNumber == 4) {
-        window.scrollTo(0, (window.innerHeight / 2) * 6);
-      } else if (sectionNumber == 5) {
-        if (window.innerWidth <= 992) {
-          window.scrollTo(0, (window.innerHeight / 2) * 12);
-        } else {
-          window.scrollTo(0, (window.innerHeight / 2) * 8);
+      
+      // Calcular a posição de scroll baseada no tamanho real das seções
+      let scrollPosition = 0;
+      
+      // Para a primeira seção, sempre vai para o topo
+      if (sectionNumber === 1) {
+        window.scrollTo(0, 0);
+        return;
+      }
+      
+      // Calcular a posição somando as alturas das seções anteriores
+      for (let i = 1; i < sectionNumber; i++) {
+        const section = document.querySelector(`.section-${i}`);
+        if (section) {
+          scrollPosition += section.offsetHeight;
         }
       }
+      
+      // Fazer o scroll suave para a posição calculada
+      window.scrollTo({
+        top: scrollPosition,
+        behavior: 'smooth'
+      });
     },
   },
   mounted() {
     this.skills = jsonSktacks;
-    this.projects = jsonProjects;
   },
 });
 </script>
@@ -69,11 +115,11 @@ export default defineComponent({
       <baseVerticalNavigator mode="light" />
       <section class="greetings">
         <h2 class="title">
-          Hello, I'm <span class="accent">Vinícius Fachini</span>.
+          {{ i18n.t('greetings.title') }} <span class="accent">Vinícius Fachini</span>.
         </h2>
-        <span class="subtitle">Your Front End Software Developer</span>
+        <span class="subtitle">{{ i18n.t('greetings.subtitle') }}</span>
         <baseButton @click="goToSection(2)">
-          About Me
+          {{ i18n.t('navigation.aboutMe') }}
           <svg fill="#000000" height="800px" width="800px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 330 330" xml:space="preserve">
             <path id="XMLID_222_" d="M250.606,154.389l-150-149.996c-5.857-5.858-15.355-5.858-21.213,0.001
           c-5.857,5.858-5.857,15.355,0.001,21.213l139.393,139.39L79.393,304.394c-5.857,5.858-5.857,15.355,0.001,21.213
@@ -85,56 +131,53 @@ export default defineComponent({
     </div>
     <div class="about-me section section-2">
       <baseVerticalNavigator mode="dark" />
-      <div class="section-title"><span>About Me</span></div>
+      <div class="section-title"><span>{{ i18n.t('aboutMe.title') }}</span></div>
       <div class="container">
         <div class="about">
           <img src="assets/picture.jpg" />
-          <h3 class="who-am-i">Who Am I?</h3>
+          <h3 class="who-am-i">{{ i18n.t('aboutMe.whoAmI') }}</h3>
           <span class="my-history">
-            I'm a Front-End Software Developer from Brazil. Since I was a young
-            boy I always loved to understand how things worked and programming
-            is how I can make them work! Lets make something special!
+            {{ i18n.t('aboutMe.description') }}
           </span>
         </div>
         <div class="qualities">
           <div class="qualities__grid">
             <div class="quality-item">
               <img class="quality-item__image" src="assets/feature-responsive.svg" />
-              <div class="quality-item__title">Responsive</div>
+              <div class="quality-item__title">{{ i18n.t('qualities.responsive.title') }}</div>
               <div class="quality-item__text">
-                My layouts will work on any device, big or small.
+                {{ i18n.t('qualities.responsive.description') }}
               </div>
             </div>
             <div class="quality-item">
               <img class="quality-item__image" src="assets/feature-dynamic.svg" />
-              <div class="quality-item__title">Dynamic</div>
+              <div class="quality-item__title">{{ i18n.t('qualities.dynamic.title') }}</div>
               <div class="quality-item__text">
-                Websites don't have to be static, I love making pages come to
-                life.
+                {{ i18n.t('qualities.dynamic.description') }}
               </div>
             </div>
             <div class="quality-item">
               <img class="quality-item__image" src="assets/feature-intuitive.svg" />
-              <div class="quality-item__title">Intuitive</div>
+              <div class="quality-item__title">{{ i18n.t('qualities.intuitive.title') }}</div>
               <div class="quality-item__text">
-                Strong preference for easy to use, intuitive UX/UI.
+                {{ i18n.t('qualities.intuitive.description') }}
               </div>
             </div>
             <div class="quality-item">
               <img class="quality-item__image" src="assets/feature-fast.svg" />
-              <div class="quality-item__title">Fast</div>
+              <div class="quality-item__title">{{ i18n.t('qualities.fast.title') }}</div>
               <div class="quality-item__text">
-                Fast load times and lag free interaction, my highest priority.
+                {{ i18n.t('qualities.fast.description') }}
               </div>
             </div>
           </div>
           <div class="qualities__assurance">
-            Guaranteed quality for your project!
+            {{ i18n.t('aboutMe.assurance') }}
           </div>
         </div>
       </div>
       <baseButton @click="goToSection(3)">
-        View My Work
+        {{ i18n.t('navigation.viewMyWork') }}
         <svg fill="#000000" height="800px" width="800px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 330 330" xml:space="preserve">
           <path id="XMLID_222_" d="M250.606,154.389l-150-149.996c-5.857-5.858-15.355-5.858-21.213,0.001
           c-5.857,5.858-5.857,15.355,0.001,21.213l139.393,139.39L79.393,304.394c-5.857,5.858-5.857,15.355,0.001,21.213
@@ -145,7 +188,7 @@ export default defineComponent({
     </div>
     <div class="projects section section-3">
       <baseVerticalNavigator mode="light" />
-      <div class="section-title"><span>Projects</span></div>
+      <div class="section-title"><span>{{ i18n.t('projects.title') }}</span></div>
       <Carousel :items-to-show="1" :snapAlign="center" :wrapAround="true">
         <slide v-for="project in projects" :key="project.title" class="container horizontal">
           <div class="project__image">
@@ -154,7 +197,7 @@ export default defineComponent({
               <div v-text="project.image.imageTitle" class="project-title"></div>
               <div v-text="project.image.imageSubtitle" class="project-desc"></div>
               <a target="_blank" class="project__image__link" :href="project.projectLink">
-                <baseButton text="View Project" />
+                <baseButton>{{ i18n.t('projects.viewProject') }}</baseButton>
               </a>
             </div>
           </div>
@@ -176,7 +219,7 @@ export default defineComponent({
     </div>
     <div class="skills section section-4">
       <baseVerticalNavigator mode="dark" />
-      <div class="section-title"><span>Skills</span></div>
+      <div class="section-title"><span>{{ i18n.t('skills.title') }}</span></div>
       <div class="skills__grid-container container">
         <ul class="skills__list">
           <li class="skills__item" v-for="(skill, index) in skills" :key="skill.name" :index="index" :class="{ last: index == skills.length - 1 }">
@@ -188,8 +231,8 @@ export default defineComponent({
         </ul>
       </div>
       <div class="skills__cta">
-        <span class="different-stack">Got a project with a different stack?</span>
-        <baseButton @click="goToSection(5)">Let's Talk!
+        <span class="different-stack">{{ i18n.t('skills.differentStack') }}</span>
+        <baseButton @click="goToSection(5)">{{ i18n.t('navigation.letsTalk') }}
           <svg fill="#000000" height="800px" width="800px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 330 330" xml:space="preserve">
             <path id="XMLID_222_" d="M250.606,154.389l-150-149.996c-5.857-5.858-15.355-5.858-21.213,0.001
           c-5.857,5.858-5.857,15.355,0.001,21.213l139.393,139.39L79.393,304.394c-5.857,5.858-5.857,15.355,0.001,21.213
@@ -201,24 +244,55 @@ export default defineComponent({
     </div>
     <div class="contact section section-5">
       <baseVerticalNavigator mode="dark" />
-      <div class="section-title"><span>Contact</span></div>
+      <div class="section-title"><span>{{ i18n.t('contact.title') }}</span></div>
       <div class="contact-page">
         <div class="contact-form">
-          <form action="#">
+          <form @submit="handleSubmit">
             <div class="form-group">
-              <label for="name">Your Name:</label>
-              <input autocomplete="false" id="name" type="text" placeholder="Name..." />
+              <label for="name">{{ i18n.t('contact.form.name') }}</label>
+              <input 
+                v-model="formData.name"
+                autocomplete="false" 
+                id="name" 
+                type="text" 
+                :placeholder="i18n.t('contact.form.namePlaceholder')" 
+                required
+              />
             </div>
             <div class="form-group">
-              <label for="email">Your E-mail:</label>
-              <input autocomplete="false" id="email" type="text" placeholder="Email..." />
+              <label for="email">{{ i18n.t('contact.form.email') }}</label>
+              <input 
+                v-model="formData.email"
+                autocomplete="false" 
+                id="email" 
+                type="email" 
+                :placeholder="i18n.t('contact.form.emailPlaceholder')" 
+                required
+              />
             </div>
             <div class="form-group">
-              <label for="message">Message:</label>
-              <textarea autocomplete="false" id="message" placeholder="Type here your message..."></textarea>
+              <label for="message">{{ i18n.t('contact.form.message') }}</label>
+              <textarea 
+                v-model="formData.message"
+                autocomplete="false" 
+                id="message" 
+                :placeholder="i18n.t('contact.form.messagePlaceholder')"
+                required
+              ></textarea>
             </div>
+            
+            <!-- Mensagem de status -->
+            <div v-if="submitMessage" class="submit-message" :class="submitStatus">
+              {{ submitMessage }}
+            </div>
+            
             <div class="button-container">
-              <baseButton class="send" type="submit">Send
+              <baseButton 
+                class="send" 
+                type="submit" 
+                :disabled="isSubmitting"
+              >
+                {{ isSubmitting ? i18n.t('contact.form.sending') : i18n.t('contact.form.send') }}
                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="256" height="256" viewBox="0 0 256 256" xml:space="preserve">
                   <defs></defs>
                   <g style="
@@ -245,7 +319,7 @@ export default defineComponent({
                   </g>
                 </svg>
               </baseButton>
-              <baseButton class="reset" type="reset">Reset
+              <baseButton class="reset" type="button" @click="resetForm">{{ i18n.t('contact.form.reset') }}
                 <svg width="24" height="20" viewBox="0 0 24 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M1 1.99756V7.99756H7" stroke="#41B883" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                   <path d="M23 17.9976V11.9976H17" stroke="#41B883" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
@@ -297,48 +371,82 @@ export default defineComponent({
   justify-content: center;
   padding-inline: 10px;
   height: 30px;
+
+  @media screen and (max-width: 768px) {
+    bottom: -20%;
+    height: 25px;
+    padding-inline: 8px;
+  }
+
+  @media screen and (max-width: 480px) {
+    bottom: -15%;
+    height: 20px;
+    padding-inline: 6px;
+  }
 }
 
 .contact {
-  padding: 32px;
-
-  @media screen and (max-width: 992px) {
-    padding-bottom: 0 !important;
-  }
+  padding: 0;
 
   background-size: 100% 100vh !important;
 
   .section-title {
     color: white !important;
+    padding-top: 32px;
+    margin-bottom: 32px;
+
+    @media screen and (max-width: 992px) {
+      padding-top: 16px;
+      margin-bottom: 16px;
+    }
+
+    @media screen and (max-width: 480px) {
+      padding-top: 8px;
+      margin-bottom: 8px;
+    }
   }
 
   .contact-page {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    height: 95%;
+    justify-content: center;
+    height: calc(100vh - 120px);
+    gap: 0;
 
     @media screen and (max-width: 992px) {
       flex-direction: column;
-
-      .contact-form {
-        max-width: 100%;
-
-        form {
-          width: 100%;
-        }
-      }
+      height: auto;
+      min-height: calc(100vh - 120px);
     }
   }
 
   .contact-form {
     width: 100%;
-    // max-width: 60%;
     display: flex;
     justify-content: center;
+    align-items: center;
+    padding: 32px;
+
+    @media screen and (max-width: 992px) {
+      width: 100%;
+      padding: 16px;
+    }
+
+    @media screen and (max-width: 480px) {
+      padding: 8px;
+    }
 
     form {
-      width: 60%;
+      width: 100%;
+      max-width: 800px;
+
+      @media screen and (max-width: 992px) {
+        max-width: 100%;
+      }
+
+      @media screen and (max-width: 768px) {
+        max-width: 100%;
+      }
 
       .social {
         margin-top: 64px;
@@ -347,6 +455,17 @@ export default defineComponent({
         justify-content: flex-start;
         gap: 16px;
 
+        @media screen and (max-width: 768px) {
+          margin-top: 48px;
+          gap: 12px;
+        }
+
+        @media screen and (max-width: 480px) {
+          margin-top: 32px;
+          gap: 8px;
+          justify-content: center;
+        }
+
         &__item {
           width: 64px;
           height: 64px;
@@ -354,6 +473,16 @@ export default defineComponent({
           cursor: pointer;
           border-radius: 3px;
           transition: all 0.2s linear;
+
+          @media screen and (max-width: 768px) {
+            width: 56px;
+            height: 56px;
+          }
+
+          @media screen and (max-width: 480px) {
+            width: 48px;
+            height: 48px;
+          }
 
           &:hover {
             background-color: #339267;
@@ -365,6 +494,18 @@ export default defineComponent({
             justify-content: center;
             width: 100%;
             height: 100%;
+
+            img {
+              @media screen and (max-width: 768px) {
+                width: 24px;
+                height: 24px;
+              }
+
+              @media screen and (max-width: 480px) {
+                width: 20px;
+                height: 20px;
+              }
+            }
           }
         }
       }
@@ -375,11 +516,29 @@ export default defineComponent({
         align-items: flex-start;
         margin-bottom: 16px;
 
+        @media screen and (max-width: 768px) {
+          margin-bottom: 12px;
+        }
+
+        @media screen and (max-width: 480px) {
+          margin-bottom: 8px;
+        }
+
         label {
           color: white;
           width: 100%;
           font-size: clamp(1rem, 0.9rem + 0.5vw, 1.5rem);
           margin-bottom: 8px;
+
+          @media screen and (max-width: 768px) {
+            font-size: clamp(0.875rem, 0.8rem + 0.4vw, 1.25rem);
+            margin-bottom: 6px;
+          }
+
+          @media screen and (max-width: 480px) {
+            font-size: clamp(0.75rem, 0.7rem + 0.3vw, 1rem);
+            margin-bottom: 4px;
+          }
         }
 
         input {
@@ -392,6 +551,17 @@ export default defineComponent({
           border: none !important;
           height: 60px;
           font-size: 20px;
+
+          @media screen and (max-width: 768px) {
+            height: 50px;
+            font-size: 18px;
+          }
+
+          @media screen and (max-width: 480px) {
+            height: 45px;
+            font-size: 16px;
+            padding: 8px 12px;
+          }
 
           &::placeholder {
             color: #ffffff75;
@@ -411,9 +581,40 @@ export default defineComponent({
           color: white;
           margin-bottom: 4px;
 
+          @media screen and (max-width: 768px) {
+            height: 150px;
+            font-size: 18px;
+          }
+
+          @media screen and (max-width: 480px) {
+            height: 120px;
+            font-size: 16px;
+            padding: 8px 12px;
+          }
+
           &::placeholder {
             color: #ffffff75;
           }
+        }
+      }
+
+      .submit-message {
+        margin-bottom: 16px;
+        padding: 12px 16px;
+        border-radius: 5px;
+        font-size: 14px;
+        text-align: center;
+        
+        &.success {
+          background-color: rgba(65, 184, 131, 0.2);
+          color: #41b883;
+          border: 1px solid #41b883;
+        }
+        
+        &.error {
+          background-color: rgba(255, 0, 0, 0.1);
+          color: #ff6b6b;
+          border: 1px solid #ff6b6b;
         }
       }
 
@@ -424,11 +625,30 @@ export default defineComponent({
         justify-content: flex-start;
         gap: 20px;
 
+        @media screen and (max-width: 768px) {
+          flex-direction: column;
+          gap: 16px;
+        }
+
+        @media screen and (max-width: 480px) {
+          gap: 12px;
+        }
+
         .send,
         .reset {
           width: 220px;
           height: 50px;
           border-radius: 5px;
+
+          @media screen and (max-width: 768px) {
+            width: 100%;
+            max-width: 300px;
+          }
+
+          @media screen and (max-width: 480px) {
+            height: 45px;
+            font-size: 16px;
+          }
 
           svg {
             transition: all 0.2s linear;
@@ -443,6 +663,10 @@ export default defineComponent({
           background: transparent;
           transition: all 0.2s linear;
           cursor: pointer;
+
+          @media screen and (max-width: 480px) {
+            font-size: 14px;
+          }
 
           svg {
             margin-left: 4px;
@@ -474,6 +698,10 @@ export default defineComponent({
           cursor: pointer;
           transition: all 0.2s linear;
 
+          @media screen and (max-width: 480px) {
+            font-size: 14px;
+          }
+
           svg {
             fill: white;
             stroke: white;
@@ -500,66 +728,6 @@ export default defineComponent({
       }
     }
   }
-
-  .contact-image {
-    width: 100%;
-    max-width: 40%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 30px;
-
-    img {
-      width: 100%;
-      position: absolute;
-      right: -5%;
-      top: 0;
-      max-width: 45vw;
-      height: 100%;
-      object-fit: cover;
-
-      @media screen and (max-width: 1550px) {
-        right: -7%;
-        max-width: 50vw;
-      }
-
-      @media screen and (max-width: 1385px) {
-        right: -15%;
-        max-width: 58vw;
-      }
-
-      @media screen and (max-width: 1200px) {
-        right: -20%;
-        max-width: 60vw;
-      }
-
-      @media screen and (max-width: 1130px) {
-        right: -30%;
-        max-width: 70vw;
-      }
-
-      @media screen and (max-width: 992px) {
-        position: relative;
-        width: 100vw;
-        height: 100%;
-        right: 0;
-        left: 0;
-        top: 0;
-        bottom: 0;
-        max-width: unset;
-      }
-    }
-
-    .working-text {
-      font-size: 64px;
-      color: #34495e;
-      text-align: center;
-      display: flex;
-      max-width: 70%;
-    }
-  }
 }
 
 .skills {
@@ -569,6 +737,14 @@ export default defineComponent({
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
+
+  @media screen and (max-width: 992px) {
+    padding: 16px;
+  }
+
+  @media screen and (max-width: 480px) {
+    padding: 8px;
+  }
 
   .skills__cta {
     display: flex;
@@ -581,6 +757,14 @@ export default defineComponent({
       text-align: center;
       color: #1b2631;
       font-weight: 500;
+
+      @media screen and (max-width: 768px) {
+        font-size: clamp(1rem, 0.8rem + 1vw, 2rem);
+      }
+
+      @media screen and (max-width: 480px) {
+        font-size: clamp(0.875rem, 0.7rem + 0.75vw, 1.5rem);
+      }
     }
 
     button {
@@ -590,20 +774,42 @@ export default defineComponent({
       color: #41b883;
       padding: 16px 32px;
       border-radius: 5px;
-      font-size: 28px;
+      font-size: clamp(1rem, 0.85rem + 0.75vw, 1.75rem);
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 16px;
       cursor: pointer;
       transition: all 0.2s linear;
-      font-size: clamp(1rem, 0.85rem + 0.75vw, 1.75rem);
+
+      @media screen and (max-width: 992px) {
+        padding: 12px 24px;
+        margin-top: 12px;
+      }
+
+      @media screen and (max-width: 768px) {
+        padding: 10px 20px;
+        margin-top: 10px;
+        gap: 12px;
+      }
+
+      @media screen and (max-width: 480px) {
+        padding: 8px 16px;
+        margin-top: 8px;
+        gap: 8px;
+        font-size: clamp(0.875rem, 0.75rem + 0.5vw, 1.25rem);
+      }
 
       svg {
         fill: #41b883;
         transition: all 0.2s linear;
         width: 16px;
         height: 16px;
+
+        @media screen and (max-width: 480px) {
+          width: 14px;
+          height: 14px;
+        }
       }
 
       &:hover {
@@ -614,10 +820,6 @@ export default defineComponent({
           transform: rotate(90deg);
           fill: white;
         }
-      }
-
-      @media screen and (max-width: 992px) {
-        padding: 8px 16px;
       }
     }
   }
@@ -642,14 +844,19 @@ export default defineComponent({
     @media screen and (max-width: 992px) {
       max-width: unset !important;
       grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      padding-bottom: 16px;
     }
 
     @media screen and (max-width: 768px) {
       grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
     }
 
-    @media screen and (max-width: 425px) {
+    @media screen and (max-width: 480px) {
       grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+      padding-bottom: 12px;
     }
   }
 
@@ -664,6 +871,14 @@ export default defineComponent({
     transition: all 0.2s linear;
     border-radius: 5px;
 
+    @media screen and (max-width: 768px) {
+      height: 80px;
+    }
+
+    @media screen and (max-width: 480px) {
+      height: 70px;
+    }
+
     &:hover {
       background-color: #339267;
     }
@@ -675,9 +890,27 @@ export default defineComponent({
     flex-wrap: wrap;
     justify-content: center;
 
+    @media screen and (max-width: 768px) {
+      width: 50px;
+    }
+
+    @media screen and (max-width: 480px) {
+      width: 45px;
+    }
+
     svg {
       width: 50px;
       height: 50px;
+
+      @media screen and (max-width: 768px) {
+        width: 40px;
+        height: 40px;
+      }
+
+      @media screen and (max-width: 480px) {
+        width: 35px;
+        height: 35px;
+      }
     }
   }
 
@@ -689,6 +922,10 @@ export default defineComponent({
     font-weight: 400;
     line-height: normal;
     display: block;
+
+    @media screen and (max-width: 480px) {
+      font-size: 10px;
+    }
   }
 
   &__progress {
@@ -729,6 +966,18 @@ export default defineComponent({
 .projects {
   padding-block: 32px;
 
+  @media screen and (max-width: 992px) {
+    padding-block: 24px;
+  }
+
+  @media screen and (max-width: 768px) {
+    padding-block: 20px;
+  }
+
+  @media screen and (max-width: 480px) {
+    padding-block: 16px;
+  }
+
   .section-title {
     color: white;
   }
@@ -739,20 +988,31 @@ export default defineComponent({
 
   .container {
     display: flex;
-    gap: 20px;
+    gap: 40px;
     align-items: flex-start;
     justify-content: center;
     min-width: 100% !important;
+    padding: 0 20px;
+
+    @media screen and (max-width: 1200px) {
+      gap: 30px;
+    }
 
     @media screen and (max-width: 992px) {
       flex-direction: column;
-      gap: 0;
+      gap: 20px;
+      padding: 0 16px;
 
       .project__image {
         max-width: unset;
-        margin-top: 32px;
+        margin-top: 0;
         width: 100%;
         height: 300px;
+
+        @media screen and (max-width: 480px) {
+          height: 200px;
+          margin-top: 0;
+        }
 
         .image-text {
           border-radius: 10px 10px 0 0;
@@ -768,10 +1028,23 @@ export default defineComponent({
         max-width: unset;
         margin-top: 0;
         color: #34495e;
-        padding: 16px;
+        padding: 24px;
         background: white;
         border-radius: 0 0 10px 10px;
+
+        @media screen and (max-width: 768px) {
+          padding: 20px;
+        }
+
+        @media screen and (max-width: 480px) {
+          padding: 16px;
+        }
       }
+    }
+
+    @media screen and (max-width: 480px) {
+      padding: 0 12px;
+      gap: 16px;
     }
   }
 
@@ -781,16 +1054,42 @@ export default defineComponent({
     max-width: 50%;
     text-align: left;
 
+    @media screen and (max-width: 1200px) {
+      margin-top: 40px;
+    }
+
+    @media screen and (max-width: 992px) {
+      margin-top: 0;
+      max-width: 100%;
+    }
+
     .project-title {
       font-size: clamp(1rem, 0.8rem + 1vw, 2rem);
+      margin-bottom: 16px;
+
+      @media screen and (max-width: 768px) {
+        margin-bottom: 12px;
+      }
+
+      @media screen and (max-width: 480px) {
+        margin-bottom: 8px;
+      }
     }
 
     .project-description {
       font-size: clamp(0.875rem, 0.75rem + 0.625vw, 1.5rem);
       padding-right: 10%;
+      margin-bottom: 20px;
+      line-height: 1.6;
 
       @media screen and (max-width: 992px) {
         padding-right: 0;
+        margin-bottom: 16px;
+      }
+
+      @media screen and (max-width: 480px) {
+        margin-bottom: 12px;
+        line-height: 1.5;
       }
     }
 
@@ -800,6 +1099,17 @@ export default defineComponent({
       justify-content: flex-start;
       gap: 20px;
       margin-top: 20px;
+
+      @media screen and (max-width: 768px) {
+        gap: 16px;
+        margin-top: 16px;
+      }
+
+      @media screen and (max-width: 480px) {
+        gap: 12px;
+        margin-top: 12px;
+        flex-wrap: wrap;
+      }
     }
   }
 
@@ -807,6 +1117,15 @@ export default defineComponent({
     margin-top: 50px;
     position: relative;
     max-width: 40%;
+
+    @media screen and (max-width: 1200px) {
+      margin-top: 40px;
+    }
+
+    @media screen and (max-width: 992px) {
+      margin-top: 0;
+      max-width: 100%;
+    }
 
     &__link {
       text-decoration: none;
@@ -816,6 +1135,7 @@ export default defineComponent({
       object-fit: cover;
       border-radius: 10px;
       height: 100%;
+      width: 100%;
     }
 
     .image-text {
@@ -837,11 +1157,31 @@ export default defineComponent({
       .project-title {
         font-size: 32px;
         margin-bottom: 16px;
+
+        @media screen and (max-width: 768px) {
+          font-size: 28px;
+          margin-bottom: 12px;
+        }
+
+        @media screen and (max-width: 480px) {
+          font-size: 24px;
+          margin-bottom: 8px;
+        }
       }
 
       .project-desc {
         font-size: 24px;
         margin-bottom: 16px;
+
+        @media screen and (max-width: 768px) {
+          font-size: 20px;
+          margin-bottom: 12px;
+        }
+
+        @media screen and (max-width: 480px) {
+          font-size: 18px;
+          margin-bottom: 8px;
+        }
       }
 
       button {
@@ -851,17 +1191,30 @@ export default defineComponent({
         color: white;
         padding: 16px 32px;
         border-radius: 5px;
-        font-size: 28px;
+        font-size: clamp(1rem, 0.85rem + 0.75vw, 1.75rem);
         display: flex;
         align-items: center;
         justify-content: center;
         gap: 16px;
         cursor: pointer;
         transition: all 0.2s linear;
-        font-size: clamp(1rem, 0.85rem + 0.75vw, 1.75rem);
 
         @media screen and (max-width: 992px) {
+          padding: 12px 24px;
+          margin-top: 24px;
+        }
+
+        @media screen and (max-width: 768px) {
+          padding: 10px 20px;
+          margin-top: 20px;
+          gap: 12px;
+        }
+
+        @media screen and (max-width: 480px) {
           padding: 8px 16px;
+          margin-top: 16px;
+          gap: 8px;
+          font-size: clamp(0.875rem, 0.75rem + 0.5vw, 1.25rem);
         }
 
         &:hover {
@@ -879,6 +1232,14 @@ export default defineComponent({
   position: relative;
   font-weight: 400;
 
+  @media screen and (max-width: 768px) {
+    font-size: 28px;
+  }
+
+  @media screen and (max-width: 480px) {
+    font-size: 24px;
+  }
+
   &::before {
     content: "";
     display: block;
@@ -889,6 +1250,10 @@ export default defineComponent({
     width: 120px;
     height: 2px;
     background-color: #41b883;
+
+    @media screen and (max-width: 480px) {
+      width: 80px;
+    }
   }
 }
 
@@ -899,6 +1264,14 @@ export default defineComponent({
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
+
+  @media screen and (max-width: 992px) {
+    padding-block: 16px;
+  }
+
+  @media screen and (max-width: 480px) {
+    padding-block: 8px;
+  }
 
   .section-title {
     color: #34495e;
@@ -936,6 +1309,14 @@ export default defineComponent({
       align-items: center;
       flex-direction: column;
       justify-content: center;
+
+      @media screen and (max-width: 768px) {
+        max-width: 250px;
+      }
+
+      @media screen and (max-width: 480px) {
+        max-width: 200px;
+      }
     }
 
     h3.who-am-i {
@@ -970,6 +1351,15 @@ export default defineComponent({
       font-size: clamp(1rem, 0.9rem + 0.5vw, 1.5rem);
       margin-top: 40px;
       color: #34495e;
+
+      @media screen and (max-width: 768px) {
+        margin-top: 32px;
+      }
+
+      @media screen and (max-width: 480px) {
+        margin-top: 24px;
+        text-align: center;
+      }
     }
 
     &__grid {
@@ -978,6 +1368,15 @@ export default defineComponent({
       gap: 25px;
       place-items: center;
 
+      @media screen and (max-width: 768px) {
+        gap: 20px;
+      }
+
+      @media screen and (max-width: 480px) {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+
       .quality-item {
         display: flex;
         flex-direction: column;
@@ -985,14 +1384,30 @@ export default defineComponent({
         justify-content: flex-start;
         max-width: 280px;
 
+        @media screen and (max-width: 480px) {
+          max-width: 100%;
+        }
+
         &__image {
           max-width: 100px;
+
+          @media screen and (max-width: 768px) {
+            max-width: 80px;
+          }
+
+          @media screen and (max-width: 480px) {
+            max-width: 70px;
+          }
         }
 
         &__title {
           font-size: clamp(1.125rem, 0.95rem + 0.875vw, 2rem);
           color: #34495e;
           margin-block: 20px 10px;
+
+          @media screen and (max-width: 480px) {
+            margin-block: 16px 8px;
+          }
         }
 
         &__text {
@@ -1020,7 +1435,21 @@ export default defineComponent({
     transition: all 0.2s linear;
 
     @media screen and (max-width: 992px) {
+      padding: 12px 24px;
+      margin-top: 24px;
+    }
+
+    @media screen and (max-width: 768px) {
+      padding: 10px 20px;
+      margin-top: 20px;
+      gap: 12px;
+    }
+
+    @media screen and (max-width: 480px) {
       padding: 8px 16px;
+      margin-top: 16px;
+      gap: 8px;
+      font-size: clamp(0.875rem, 0.75rem + 0.5vw, 1.25rem);
     }
 
     svg {
@@ -1028,6 +1457,11 @@ export default defineComponent({
       transition: all 0.2s linear;
       width: 16px;
       height: 16px;
+
+      @media screen and (max-width: 480px) {
+        width: 14px;
+        height: 14px;
+      }
     }
 
     &:hover {
@@ -1058,27 +1492,39 @@ export default defineComponent({
   position: relative;
   min-height: 100dvh;
 
-  &.section-3 {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+      &.section-3 {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
 
-    .carousel__slide {
-      padding-inline: 20px;
-    }
+      .carousel__slide {
+        padding-inline: 20px;
 
-    .section-title {
-      position: absolute;
-      top: 50px;
-      right: 0;
-      left: 0;
+        @media screen and (max-width: 768px) {
+          padding-inline: 16px;
+        }
 
-      @media screen and (max-width: 992px) {
-        top: 20px;
+        @media screen and (max-width: 480px) {
+          padding-inline: 12px;
+        }
+      }
+
+      .section-title {
+        position: absolute;
+        top: 50px;
+        right: 0;
+        left: 0;
+
+        @media screen and (max-width: 992px) {
+          top: 30px;
+        }
+
+        @media screen and (max-width: 480px) {
+          top: 20px;
+        }
       }
     }
-  }
 
   .greetings {
     position: absolute;
@@ -1092,10 +1538,22 @@ export default defineComponent({
     justify-content: center;
     flex-direction: column;
 
+    @media screen and (max-width: 768px) {
+      width: 90dvw;
+    }
+
+    @media screen and (max-width: 480px) {
+      width: 95dvw;
+    }
+
     .title {
       font-size: clamp(2rem, 1.6rem + 3vw, 4rem);
       color: white;
       font-weight: 400;
+
+      @media screen and (max-width: 480px) {
+        font-size: clamp(1.5rem, 1.2rem + 2vw, 2.5rem);
+      }
 
       .accent {
         color: #41b883;
@@ -1106,6 +1564,10 @@ export default defineComponent({
       font-size: clamp(2rem, 1.6rem + 2vw, 4rem);
       color: white;
       font-weight: 400;
+
+      @media screen and (max-width: 480px) {
+        font-size: clamp(1.5rem, 1.2rem + 2vw, 2.5rem);
+      }
     }
 
     button {
@@ -1124,7 +1586,21 @@ export default defineComponent({
       transition: all 0.2s linear;
 
       @media screen and (max-width: 992px) {
+        padding: 12px 24px;
+        margin-top: 24px;
+      }
+
+      @media screen and (max-width: 768px) {
+        padding: 10px 20px;
+        margin-top: 20px;
+        gap: 12px;
+      }
+
+      @media screen and (max-width: 480px) {
         padding: 8px 16px;
+        margin-top: 16px;
+        gap: 8px;
+        font-size: clamp(0.875rem, 0.75rem + 0.5vw, 1.25rem);
       }
 
       svg {
@@ -1132,6 +1608,11 @@ export default defineComponent({
         transition: all 0.2s linear;
         width: 16px;
         height: 16px;
+
+        @media screen and (max-width: 480px) {
+          width: 14px;
+          height: 14px;
+        }
       }
 
       &:hover {

@@ -1,0 +1,59 @@
+{
+  "greetings": {
+    "title": "Hello, I'm",
+    "subtitle": "Your FullStack Software Developer"
+  },
+  "navigation": {
+    "aboutMe": "About Me",
+    "viewMyWork": "View My Work",
+    "letsTalk": "Let's Talk!"
+  },
+  "aboutMe": {
+    "title": "About Me",
+    "whoAmI": "Who Am I?",
+    "description": "I'm a Front-End Software Developer from Brazil. Since I was a young boy I always loved to understand how things worked and programming is how I can make them work! Lets make something special!",
+    "assurance": "Guaranteed quality for your project!"
+  },
+  "qualities": {
+    "responsive": {
+      "title": "Responsive",
+      "description": "My layouts will work on any device, big or small."
+    },
+    "dynamic": {
+      "title": "Dynamic",
+      "description": "Websites don't have to be static, I love making pages come to life."
+    },
+    "intuitive": {
+      "title": "Intuitive",
+      "description": "Strong preference for easy to use, intuitive UX/UI."
+    },
+    "fast": {
+      "title": "Fast",
+      "description": "Fast load times and lag free interaction, my highest priority."
+    }
+  },
+  "projects": {
+    "title": "Projects",
+    "viewProject": "View Project"
+  },
+  "skills": {
+    "title": "Skills",
+    "differentStack": "Got a project with a different stack?"
+  },
+  "contact": {
+    "title": "Contact",
+    "form": {
+      "name": "Your Name:",
+      "email": "Your E-mail:",
+      "message": "Message:",
+      "namePlaceholder": "Name...",
+      "emailPlaceholder": "Email...",
+      "messagePlaceholder": "Type here your message...",
+      "send": "Send",
+      "sending": "Sending...",
+      "reset": "Reset",
+      "successMessage": "Message sent successfully! We'll get back to you soon.",
+      "errorMessage": "Error sending message. Please try again."
+    }
+  }
+} 

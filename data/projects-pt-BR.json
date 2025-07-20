@@ -1,0 +1,37 @@
+[
+    {
+        "title": "Blog CMS",
+        "description": "Criei um CMS para um Blog usando Nuxt 3 no frontend e Node JS no backend. O projeto foi focado em criar uma ferramenta para gerenciar o conteúdo de um blog simples, possui categorias para os posts, comentários e todas as coisas necessárias para rodar um blog!",
+        "technologies": [
+            "html",
+            "git",
+            "vuejs",
+            "nodejs",
+            "sass"
+        ],
+        "image": {
+            "path": "./assets/blog-cms.png",
+            "imageTitle": "Projeto Web FullStack",
+            "imageSubtitle": "CMS Para um blog"
+        },
+        "projectLink": "https://github.com/VinniFachini/blog-api"
+    },
+    {
+        "title": "Projeto 02",
+        "description": "Um marketplace completo que funciona como uma transação única por item, possui usuários, sistema de carteira, produtos, categorias e tudo necessário para funcionar como um marketplace. O projeto foi focado em criar um marketplace e foi usado Nuxt 3 no frontend e Node JS no backend. Atualmente estou refatorando este projeto e aplicando o sistema de Test Driven Development.",
+        "technologies": [
+            "html",
+            "git",
+            "vuejs",
+            "typescript",
+            "nodejs",
+            "sass"
+        ],
+        "image": {
+            "path": "./assets/project01.webp",
+            "imageTitle": "Projeto Web FullStack",
+            "imageSubtitle": "Marketplace Completo"
+        },
+        "projectLink": "https://google.com"
+    }
+] 

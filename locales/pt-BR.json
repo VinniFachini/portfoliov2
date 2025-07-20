@@ -1,0 +1,59 @@
+{
+  "greetings": {
+    "title": "Olá, eu sou",
+    "subtitle": "Seu Desenvolvedor FullStack"
+  },
+  "navigation": {
+    "aboutMe": "Sobre Mim",
+    "viewMyWork": "Ver Meu Trabalho",
+    "letsTalk": "Vamos Conversar!"
+  },
+  "aboutMe": {
+    "title": "Sobre Mim",
+    "whoAmI": "Quem Sou Eu?",
+    "description": "Sou um Desenvolvedor Front-End do Brasil. Desde pequeno sempre amei entender como as coisas funcionavam e a programação é como posso fazê-las funcionar! Vamos criar algo especial!",
+    "assurance": "Qualidade garantida para seu projeto!"
+  },
+  "qualities": {
+    "responsive": {
+      "title": "Responsivo",
+      "description": "Meus layouts funcionarão em qualquer dispositivo, grande ou pequeno."
+    },
+    "dynamic": {
+      "title": "Dinâmico",
+      "description": "Sites não precisam ser estáticos, eu adoro fazer páginas ganharem vida."
+    },
+    "intuitive": {
+      "title": "Intuitivo",
+      "description": "Forte preferência por UX/UI fácil de usar e intuitivo."
+    },
+    "fast": {
+      "title": "Rápido",
+      "description": "Tempos de carregamento rápidos e interação sem lag, minha maior prioridade."
+    }
+  },
+  "projects": {
+    "title": "Projetos",
+    "viewProject": "Ver Projeto"
+  },
+  "skills": {
+    "title": "Habilidades",
+    "differentStack": "Tem um projeto com uma stack diferente?"
+  },
+  "contact": {
+    "title": "Contato",
+    "form": {
+      "name": "Seu Nome:",
+      "email": "Seu E-mail:",
+      "message": "Mensagem:",
+      "namePlaceholder": "Nome...",
+      "emailPlaceholder": "Email...",
+      "messagePlaceholder": "Digite aqui sua mensagem...",
+      "send": "Enviar",
+      "sending": "Enviando...",
+      "reset": "Limpar",
+      "successMessage": "Mensagem enviada com sucesso! Entraremos em contato em breve.",
+      "errorMessage": "Erro ao enviar mensagem. Tente novamente."
+    }
+  }
+} 

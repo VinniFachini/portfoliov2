@@ -308,22 +308,22 @@ export default defineComponent({
             </div>
             <ul class="social">
               <li class="social__item">
-                <a href="https://linkedin.com/in/vinicius-fachini">
+                <a target="_blank" href="https://linkedin.com/in/vinicius-fachini">
                   <img src="assets/social/linkedin.svg" alt="LinkedIn" />
                 </a>
               </li>
               <li class="social__item">
-                <a href="/Curriculo.pdf" download>
+                <a target="_blank" href="/Curriculo.pdf" download>
                   <img src="assets/social/download.svg" alt="Resume" />
                 </a>
               </li>
               <li class="social__item">
-                <a href="mailto:vinicius.fachini01@gmail.com">
+                <a target="_blank" href="mailto:vinicius.fachini01@gmail.com">
                   <img src="assets/social/email.svg" alt="Email" />
                 </a>
               </li>
               <li class="social__item">
-                <a href="https://wa.me/5518996248348?text=Ol%C3%A1%2C%20gostaria%20de%20fazer%20um%20or%C3%A7amento!">
+                <a target="_blank" href="https://wa.me/5518996248348?text=Ol%C3%A1%2C%20gostaria%20de%20fazer%20um%20or%C3%A7amento!">
                   <img src="assets/social/whatsapp.svg" alt="Whatsapp" />
                 </a>
               </li>

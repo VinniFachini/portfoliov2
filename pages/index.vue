@@ -1013,6 +1013,13 @@ export default defineComponent({
         width: 100%;
         height: 300px;
 
+        .project-links {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 10px;
+        }
+
         @media screen and (max-width: 480px) {
           height: 200px;
           margin-top: 0;

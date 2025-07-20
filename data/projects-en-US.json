@@ -22,7 +22,7 @@
         ]
     },
     {
-        "title": "Project 02",
+        "title": "Marketplace",
         "description": "A Complete marketplace that works as a single transaction per item, it has users, wallet system, products, categories and everything necessary to work as a marketplace. The project was focused on creating a marketplace and was used Nuxt 3 on the front end and Node JS on the backend. Currently I'm refactoring this project and applying the Test Driven Development system.",
         "technologies": [
             "html",

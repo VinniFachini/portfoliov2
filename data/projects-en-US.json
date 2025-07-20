@@ -40,11 +40,11 @@
         "projectLink": [
             {
                 "link": "https://github.com/ViniciusFachini/marketplace-back",
-                "title": "FrontEnd"
+                "title": "BackEnd"
             },
             {
                 "link": "https://github.com/ViniciusFachini/marketplace-front",
-                "title": "Backend"
+                "title": "FrontEnd"
             }
         ]
     }

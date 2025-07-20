@@ -199,7 +199,7 @@ export default defineComponent({
               <div class="project-links">
                 <div v-for="projectInfo in project.projectLink" class="project-link">
                   <a target="_blank" class="project__image__link" :href="projectInfo.link">
-                    <baseButton>{{ i18n.t('projects.viewProject') }}</baseButton>
+                    <baseButton>{{ projectInfo.title }}</baseButton>
                   </a>
                 </div>
               </div>
